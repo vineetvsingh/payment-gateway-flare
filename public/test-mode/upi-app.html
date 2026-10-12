@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test UPI App</title>
+  <link rel="stylesheet" href="/static/checkout/checkout.css">
+  <link rel="stylesheet" href="/static/test-mode/upi-app.css">
+  <script src="/static/test-mode/upi-app.js" defer></script>
+</head>
+<body>
+  <main class="card phone">
+    <p class="app-name">⚡ Test UPI App <span class="test-badge">SIMULATOR</span></p>
+
+    <section id="request" hidden>
+      <p class="muted">Payment request from</p>
+      <p class="payee" id="payee"></p>
+      <p class="amount" id="amount"></p>
+      <p class="muted" id="description"></p>
+      <form id="approve-form" novalidate>
+        <label id="payer-label" hidden>Pay from UPI ID
+          <input id="payer-vpa" value="customer@okbank" autocapitalize="none" spellcheck="false">
+        </label>
+        <p class="muted" id="payer-fixed"></p>
+        <label>Enter UPI PIN
+          <input id="pin" type="password" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="4 or 6 digits">
+        </label>
+        <p class="hint">Any 4 or 6 digit PIN works in test mode.</p>
+        <p class="error" id="error" role="alert"></p>
+        <button type="submit" id="approve">Approve and pay</button>
+      </form>
+      <p></p>
+      <button type="button" id="decline" class="secondary">Decline</button>
+    </section>
+
+    <section id="done" class="result" hidden>
+      <div class="icon" id="done-icon"></div>
+      <h1 id="done-title"></h1>
+      <p id="done-text"></p>
+    </section>
+
+    <footer>This page stands in for the payer's phone. In real life the request appears in Google Pay, PhonePe, Paytm, or a similar app.</footer>
+  </main>
+</body>
+</html>

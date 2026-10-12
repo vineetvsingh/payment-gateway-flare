@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Secure Checkout</title>
+  <link rel="stylesheet" href="/static/checkout/checkout.css">
+  <script src="/static/checkout/checkout.js" defer></script>
+</head>
+<body>
+  <main class="card">
+    <header>
+      <p class="merchant" id="merchant">Loading…</p>
+      <p class="amount" id="amount"></p>
+      <p class="description" id="description"></p>
+    </header>
+
+    <div class="tabs" role="tablist" id="method-tabs" hidden>
+      <button type="button" role="tab" id="tab-card" data-method="card" aria-selected="true">💳 Card</button>
+      <button type="button" role="tab" id="tab-upi" data-method="upi" aria-selected="false">⚡ UPI</button>
+    </div>
+
+    <form id="pay-form" hidden novalidate>
+      <label>Card number
+        <div class="with-brand">
+          <input id="number" inputmode="numeric" autocomplete="cc-number" placeholder="1234 1234 1234 1234" required>
+          <span id="brand" class="brand"></span>
+        </div>
+      </label>
+      <div class="row">
+        <label>Expiry
+          <input id="expiry" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / YY" required>
+        </label>
+        <label>CVC
+          <input id="cvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4" required>
+        </label>
+      </div>
+      <label>Name on card
+        <input id="name" autocomplete="cc-name" placeholder="Full name">
+      </label>
+      <p class="error" id="error" role="alert"></p>
+      <button type="submit" id="pay-button">Pay</button>
+    </form>
+
+    <section id="upi-panel" hidden>
+      <form id="upi-form" novalidate>
+        <label>UPI ID
+          <input id="vpa" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="yourname@bank" required>
+        </label>
+        <p class="error" id="upi-error" role="alert"></p>
+        <button type="submit" id="upi-pay-button">Send payment request</button>
+      </form>
+      <div class="divider"><span>or</span></div>
+      <button type="button" id="upi-qr-button" class="secondary">Show QR code to scan</button>
+    </section>
+
+    <section id="razorpay-panel" class="razorpay-panel" hidden>
+      <button type="button" id="razorpay-pay">Pay</button>
+      <p class="error" id="razorpay-error" role="alert"></p>
+      <p class="note">Card, UPI, netbanking or wallet. Payment details go straight to Razorpay.</p>
+      <p class="note test-hint" id="razorpay-test-hint" hidden>
+        <span class="test-badge">TEST MODE</span> Use card <code>4100 2800 0000 1007</code>, any future expiry and any CVV,
+        then any 4–10 digit OTP. No real money moves.
+      </p>
+    </section>
+
+    <section id="upi-wait" class="upi-wait" hidden aria-live="polite">
+      <img id="upi-qr-img" class="qr" alt="UPI QR code" width="220" height="220" hidden>
+      <div class="spinner" id="upi-spinner" aria-hidden="true"></div>
+      <h1 id="upi-wait-title"></h1>
+      <p id="upi-wait-text"></p>
+      <p class="timer">Request expires in <strong id="upi-timer">5:00</strong></p>
+      <a id="upi-sim-link" class="sim-link" target="_blank" rel="noopener">Open the simulated UPI app ↗</a>
+      <button type="button" id="upi-cancel" class="secondary">Cancel and use another method</button>
+    </section>
+
+    <section id="result" class="result" hidden>
+      <div class="icon" id="result-icon"></div>
+      <h1 id="result-title"></h1>
+      <p id="result-text"></p>
+    </section>
+
+    <footer>🔒 Payments are encrypted and processed securely. <span class="test-badge">TEST MODE</span></footer>
+  </main>
+
+  <aside class="test-cards" id="test-cards" hidden>
+    <h2 id="test-title">Test cards</h2>
+    <p id="test-hint">Click one to fill the form. Use any future expiry date and any CVC.</p>
+    <ul id="test-card-list"></ul>
+  </aside>
+</body>
+</html>

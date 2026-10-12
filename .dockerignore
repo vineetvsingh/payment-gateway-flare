@@ -1,0 +1,7 @@
+node_modules
+*.db
+*.db-*
+.env
+.git
+test
+examples

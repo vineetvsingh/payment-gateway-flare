@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Stream alerts</title>
+  <link rel="stylesheet" href="/static/overlay/overlay.css">
+  <script src="/static/overlay/overlay.js" defer></script>
+</head>
+<body>
+  <!-- Alerts: a transparent page for OBS's Browser Source. -->
+  <div id="alert-stage" class="stage" hidden>
+    <div id="alert" class="alert" hidden aria-live="polite">
+      <p class="who"><span id="alert-name"></span> sent <span id="alert-article">a</span> <span class="amount" id="alert-amount"></span> <span id="alert-donation-name">Flare</span></p>
+      <p class="message" id="alert-message"></p>
+    </div>
+  </div>
+
+  <!-- Shown only in a normal browser tab, never inside OBS. -->
+  <div id="hint" class="hint" hidden></div>
+
+  <!-- Voice: open in Edge or Chrome; OBS captures the sound. -->
+  <main id="voice" class="voice" hidden>
+    <h1>🔊 Alert voice</h1>
+    <p class="lead">Keep this tab open while you stream. It reads donation messages aloud in English, Hindi or Hinglish, and OBS picks up the sound.</p>
+
+    <button type="button" id="voice-start" class="primary">Start voice</button>
+    <p class="status" id="voice-status">Not started</p>
+
+    <div class="settings" id="voice-settings" hidden>
+      <label>English voice
+        <select id="voice-en"></select>
+      </label>
+      <label>Hindi voice <span class="note">reads Hindi and Hinglish messages</span>
+        <select id="voice-hi"></select>
+      </label>
+      <p class="note" id="voice-hi-missing" hidden>This browser has no Hindi voice, so Hinglish is read by the English voice. Open this page in Microsoft Edge for natural Hindi voices.</p>
+      <label>Speed <span id="voice-rate-value"></span>
+        <input type="range" id="voice-rate" min="0.7" max="1.4" step="0.05" value="1">
+      </label>
+      <div class="tests" role="group" aria-label="Play a test line">
+        <span>Play a test line</span>
+        <button type="button" data-test="english">English</button>
+        <button type="button" data-test="hindi" lang="hi">हिन्दी</button>
+        <button type="button" data-test="hinglish">Hinglish</button>
+      </div>
+    </div>
+
+    <details class="help">
+      <summary>How to get this sound into OBS</summary>
+      <ol>
+        <li>In OBS, under <strong>Sources</strong>, click <strong>+</strong> and choose <strong>Application Audio Capture</strong>.</li>
+        <li>For <strong>Window</strong>, pick this browser window.</li>
+        <li>Play a test line above and check the new source's volume meter moves.</li>
+      </ol>
+      <p>Tip: open this page in its own browser window, so other tabs' sounds don't end up on stream.</p>
+    </details>
+  </main>
+</body>
+</html>

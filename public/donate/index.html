@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Donate</title>
+  <link rel="preload" href="/static/fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/static/donate/donate.css">
+  <script src="/static/donate/donate.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="masthead" id="masthead" hidden>
+      <h1 id="streamer-name"></h1>
+      <p class="bio" id="streamer-bio"></p>
+      <p class="test-tag" id="test-badge" hidden>Test mode: no real money is charged</p>
+    </header>
+
+    <p class="loading" id="loading">Loading…</p>
+
+    <div class="layout" id="layout" hidden>
+      <form id="form" class="donate-form" novalidate>
+        <label class="field">
+          <span class="label">Your name</span>
+          <input id="name" maxlength="40" autocomplete="nickname" placeholder="Shown on stream">
+          <span class="hint">Leave it empty to stay anonymous.</span>
+        </label>
+
+        <fieldset class="field">
+          <legend class="label">Amount</legend>
+          <div class="amounts" id="presets"></div>
+          <div class="other-amount">
+            <span aria-hidden="true">₹</span>
+            <input id="amount" inputmode="numeric" placeholder="Other amount" aria-label="Other amount in rupees">
+          </div>
+          <p class="hint" id="amount-hint"></p>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend class="label">Pay with</legend>
+          <div class="methods" id="methods"></div>
+        </fieldset>
+
+        <label class="field">
+          <span class="label">Message <span class="optional">(optional)</span></span>
+          <textarea id="message" rows="3" maxlength="200" placeholder="Say something to the stream"></textarea>
+          <span class="hint split"><span id="tts-hint"></span><span id="counter">0/200</span></span>
+        </label>
+
+        <p class="error" id="error" role="alert"></p>
+        <button type="submit" id="submit" class="donate-button">Donate</button>
+        <p class="fineprint" id="fineprint">You'll pay on a secure checkout page. Messages are checked before they go on stream.</p>
+      </form>
+
+      <aside class="preview" aria-label="Preview of your alert on stream">
+        <p class="preview-title">How it will look on stream</p>
+        <div class="screen">
+          <span class="live">LIVE</span>
+          <div class="alert-card">
+            <p class="alert-who"><span class="alert-name" id="preview-name">Anonymous</span> sent <span id="preview-article">a</span> <span class="alert-amount" id="preview-amount">₹100</span> <span id="preview-donation-name">Flare</span></p>
+            <p class="alert-message" id="preview-message"></p>
+          </div>
+        </div>
+        <p class="preview-voice" id="preview-voice"></p>
+      </aside>
+    </div>
+
+    <section id="thanks" class="result" hidden aria-live="polite">
+      <div class="result-mark" id="thanks-icon"></div>
+      <h2 id="thanks-title"></h2>
+      <p id="thanks-text"></p>
+      <a class="donate-button as-link" id="thanks-again" href="#">Donate again</a>
+    </section>
+
+    <section id="missing" class="result" hidden>
+      <h2>This page doesn't exist</h2>
+      <p>Check the link, or ask the streamer for their donation page.</p>
+    </section>
+  </main>
+</body>
+</html>

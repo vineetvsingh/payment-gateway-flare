@@ -1,0 +1,268 @@
+/* Bricolage Grotesque, SIL Open Font License 1.1, self-hosted. latin-ext carries the rupee sign. */
+@font-face {
+  font-family: 'Bricolage';
+  src: url('/static/fonts/bricolage-latin.woff2') format('woff2');
+  font-weight: 400 800;
+  font-stretch: 75% 100%;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF;
+}
+@font-face {
+  font-family: 'Bricolage';
+  src: url('/static/fonts/bricolage-latin-ext.woff2') format('woff2');
+  font-weight: 400 800;
+  font-stretch: 75% 100%;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1EFF, U+20A0-20AB, U+20AD-20C4, U+2C60-2C7F;
+}
+
+:root {
+  color-scheme: light;
+  --paper: #eef3e8;
+  --field: #fbfdf8;
+  --ink: #15241b;
+  --ink-soft: #4d5e53;
+  --line: #c9d6c3;
+  --vine: #2e7a4c;
+  --vine-deep: #225d39;
+  --vine-wash: #dcebd8;
+  --marigold: #f2b33d;
+  --error: #b3261e;
+  /* The stream screen and alert card mirror the real OBS overlay. */
+  --stage: #1c1830;
+  --card: rgb(20 18 36 / 0.9);
+  --card-edge: #8f84ff;
+  --card-name: #b9b2ff;
+  --card-amount: #ffd166;
+  --display: 'Bricolage', 'Arial Narrow', system-ui, sans-serif;
+  --text: 'Bricolage', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* Motion: a quick, soft ease-out for state changes and a gentle overshoot for things that pop. */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --paper: #101912;
+    --field: #172219;
+    --ink: #e4eee4;
+    --ink-soft: #a3b4a6;
+    --line: #2f4234;
+    --vine: #5bbd83;
+    --vine-deep: #7fd2a0;
+    --vine-wash: #1d3324;
+    --error: #ff8a80;
+  }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #101912; --field: #172219; --ink: #e4eee4; --ink-soft: #a3b4a6; --line: #2f4234;
+  --vine: #5bbd83; --vine-deep: #7fd2a0; --vine-wash: #1d3324; --error: #ff8a80;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body {
+  background: var(--paper); color: var(--ink); font: 16px/1.55 var(--text);
+  font-optical-sizing: auto; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+button, input, textarea { font: inherit; color: inherit; }
+
+.page { max-width: 1040px; margin: 0 auto; padding: 48px 24px 64px; }
+.loading { color: var(--ink-soft); }
+
+/* ------------------------------------------------------------ masthead */
+/* The channel name is the page's voice: big, tight and condensed. */
+.masthead { margin-bottom: 40px; }
+.masthead h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-stretch: 78%;
+  font-size: clamp(44px, 9vw, 92px);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+.bio { margin: 12px 0 0; max-width: 46ch; color: var(--ink-soft); font-size: 18px; }
+.test-tag {
+  display: inline-block; margin: 16px 0 0; padding: 4px 10px; border-radius: 6px;
+  background: #fde9b8; color: #6b4a00; font-size: 13px; font-weight: 600;
+}
+
+/* --------------------------------------------------------------- layout */
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 56px; align-items: start; }
+.preview { position: sticky; top: 32px; }
+
+/* ----------------------------------------------------------------- form */
+.field { display: block; border: 0; padding: 0; margin: 0 0 28px; min-width: 0; }
+.label { display: block; padding: 0; margin: 0 0 10px; font-weight: 650; font-size: 15px; }
+.optional { color: var(--ink-soft); font-weight: 400; }
+.hint { display: block; margin: 8px 0 0; color: var(--ink-soft); font-size: 14px; }
+.hint.split { display: flex; justify-content: space-between; gap: 16px; }
+#counter { font-variant-numeric: tabular-nums; }
+#counter.near { color: var(--error); }
+
+input, textarea {
+  display: block; width: 100%;
+  padding: 13px 15px;
+  background: var(--field);
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 450;
+  letter-spacing: 0.005em;
+  transition: border-color 220ms var(--ease), box-shadow 220ms var(--ease), background-color 220ms var(--ease);
+}
+textarea { resize: vertical; min-height: 96px; }
+input::placeholder, textarea::placeholder { color: var(--ink-soft); opacity: 0.8; }
+input:focus-visible, textarea:focus-visible { outline: none; border-color: var(--vine); box-shadow: 0 0 0 4px var(--vine-wash); }
+input:hover:not(:focus-visible), textarea:hover:not(:focus-visible) { border-color: var(--ink-soft); }
+
+/* Amounts are set like scoreboard numbers: the biggest type on the form. */
+.amounts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.amount, .method { position: relative; display: block; }
+.amount input, .method input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.amount span {
+  display: block; padding: 12px 4px 10px; text-align: center;
+  border: 2px solid var(--line); border-radius: 10px; background: var(--field);
+  font-family: var(--display); font-weight: 700; font-stretch: 85%; font-size: 26px; line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  transition: background-color 240ms var(--ease), border-color 240ms var(--ease), color 240ms var(--ease), transform 300ms var(--spring);
+}
+.amount input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.amount input:focus-visible + span, .method input:focus-visible + span { box-shadow: 0 0 0 3px var(--vine-wash); border-color: var(--vine); }
+.amount:hover span, .method:hover span { border-color: var(--ink-soft); }
+
+.other-amount { position: relative; margin-top: 8px; }
+.other-amount span { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-weight: 650; color: var(--ink-soft); }
+.other-amount input { padding-left: 34px; font-variant-numeric: tabular-nums; }
+
+.methods { display: flex; flex-wrap: wrap; gap: 8px; }
+.method span {
+  display: block; padding: 11px 18px; border: 2px solid var(--line); border-radius: 10px;
+  background: var(--field); font-weight: 600;
+  transition: background-color 240ms var(--ease), border-color 240ms var(--ease), color 240ms var(--ease), transform 300ms var(--spring);
+}
+.amount:active span, .method:active span { transform: scale(0.95); }
+.amount input:checked + span { transform: scale(1.03); }
+.method input:checked + span { border-color: var(--vine); background: var(--vine-wash); color: var(--vine-deep); }
+
+.error { min-height: 1.5em; margin: 0 0 10px; color: var(--error); font-size: 15px; }
+.error.show { animation: rise 360ms var(--ease) both; }
+.donate-button {
+  display: block; width: 100%; padding: 16px 20px; border: 0; border-radius: 12px; cursor: pointer;
+  background: var(--vine); color: #fff; text-align: center; text-decoration: none;
+  font-family: var(--display); font-weight: 700; font-stretch: 90%; font-size: 22px; letter-spacing: 0.01em;
+}
+.donate-button {
+  position: relative;
+  transition: background-color 220ms var(--ease), transform 260ms var(--ease), box-shadow 260ms var(--ease);
+}
+.donate-button:hover:not(:disabled) { background: var(--vine-deep); transform: translateY(-2px); box-shadow: 0 10px 22px -10px rgb(34 93 57 / 0.7); }
+.donate-button:active:not(:disabled) { transform: translateY(0) scale(0.985); box-shadow: none; transition-duration: 90ms; }
+.donate-button.busy::after {
+  content: ''; display: inline-block; width: 18px; height: 18px; margin-left: 12px; vertical-align: -3px;
+  border: 2.5px solid currentColor; border-right-color: transparent; border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+.donate-button:focus-visible { outline: 3px solid var(--marigold); outline-offset: 3px; }
+.donate-button:disabled { opacity: 0.6; cursor: progress; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .donate-button { color: #0c1a10; } }
+:root[data-theme='dark'] .donate-button { color: #0c1a10; }
+.fineprint { margin: 14px 0 0; color: var(--ink-soft); font-size: 13px; }
+
+/* ------------------------------------------------------- stream preview */
+.preview-title { margin: 0 0 10px; font-weight: 650; font-size: 15px; }
+.screen {
+  position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 14px;
+  display: flex; align-items: flex-start; justify-content: center; padding: 7% 6% 0;
+  background:
+    radial-gradient(120% 70% at 50% 120%, #2e5f4a 0%, transparent 60%),
+    linear-gradient(180deg, #241d3d 0%, var(--stage) 55%, #14281f 100%);
+}
+.live {
+  position: absolute; left: 12px; top: 12px; padding: 2px 7px; border-radius: 4px;
+  background: #e53935; color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 0.04em;
+}
+.alert-card {
+  width: 100%; padding: 4.5% 5%; border-radius: 16px; text-align: center; color: #fff;
+  background: var(--card); border: 2px solid var(--card-edge);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.4), 0 0 24px rgb(143 132 255 / 0.3);
+}
+.alert-who { margin: 0; font-weight: 800; font-size: clamp(16px, 2.2vw, 22px); line-height: 1.2; overflow-wrap: anywhere; }
+.alert-name { color: var(--card-name); }
+.alert-amount { color: var(--card-amount); white-space: nowrap; }
+.alert-message { margin: 8px 0 0; font-size: clamp(13px, 1.6vw, 16px); line-height: 1.35; overflow-wrap: anywhere; }
+.alert-message:empty { display: none; }
+.preview-voice { margin: 10px 0 0; color: var(--ink-soft); font-size: 14px; }
+
+/* The card answers the donor's choices: a soft spring for a new amount, and the amount rolls in like a counter. */
+.alert-card { transition: box-shadow 400ms var(--ease); }
+.alert-card.bump { animation: bump 520ms var(--spring); }
+@keyframes bump { 0% { transform: scale(1); } 35% { transform: scale(1.035); } 100% { transform: scale(1); } }
+.alert-amount { display: inline-block; }
+.alert-amount.tick { animation: tick 420ms var(--ease); }
+@keyframes tick { from { opacity: 0; transform: translateY(55%); } to { opacity: 1; transform: none; } }
+.alert-message { transition: opacity 200ms var(--ease); }
+.preview-voice { transition: color 240ms var(--ease); }
+.live::before {
+  content: ''; display: inline-block; width: 6px; height: 6px; margin-right: 5px; vertical-align: 1px;
+  border-radius: 50%; background: #fff; animation: pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: 0.25; } }
+
+/* ------------------------------------------------------- thanks / missing */
+.result { max-width: 560px; }
+.result > * { animation: rise 640ms var(--ease) both; }
+.result > :nth-child(2) { animation-delay: 70ms; }
+.result > :nth-child(3) { animation-delay: 140ms; }
+.result > :nth-child(4) { animation-delay: 210ms; }
+.result-mark { animation: pop 600ms var(--spring) both !important; }
+@keyframes pop { from { opacity: 0; transform: scale(0.4) rotate(-12deg); } to { opacity: 1; transform: none; } }
+.result h2 {
+  margin: 0; font-family: var(--display); font-weight: 800; font-stretch: 80%;
+  font-size: clamp(36px, 7vw, 60px); line-height: 0.95; letter-spacing: -0.015em;
+}
+.result p { margin: 14px 0 28px; color: var(--ink-soft); font-size: 18px; }
+.result .as-link { display: inline-block; width: auto; padding: 14px 28px; }
+.result-mark { font-size: 44px; line-height: 1; margin-bottom: 18px; }
+.spinner { width: 40px; height: 40px; border-radius: 50%; border: 4px solid var(--line); border-top-color: var(--vine); animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } }
+
+/* ---------------------------------------------------------------- small */
+@media (max-width: 860px) {
+  .page { padding: 28px 16px 48px; }
+  .masthead { margin-bottom: 24px; }
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  /* On phones the preview comes first, so donors see the point of the message before typing it. */
+  .preview { position: static; order: -1; }
+}
+@media (max-width: 380px) {
+  .amounts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ------------------------------------------------------------- motion */
+/* One entrance when the page loads: the name, then the form fields in order, then the stream preview. */
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes screen-in { from { opacity: 0; transform: translateY(18px) scale(0.98); } to { opacity: 1; transform: none; } }
+.masthead > * { animation: rise 700ms var(--ease) both; }
+.masthead > :nth-child(2) { animation-delay: 80ms; }
+.masthead > :nth-child(3) { animation-delay: 140ms; }
+.donate-form > * { animation: rise 640ms var(--ease) both; }
+.donate-form > :nth-child(1) { animation-delay: 160ms; }
+.donate-form > :nth-child(2) { animation-delay: 220ms; }
+.donate-form > :nth-child(3) { animation-delay: 280ms; }
+.donate-form > :nth-child(4) { animation-delay: 340ms; }
+.donate-form > :nth-child(n + 5) { animation-delay: 400ms; }
+.preview { animation: screen-in 820ms var(--ease) 260ms both; }
+.preview .alert-card { animation: rise 700ms var(--ease) 620ms both; }
+.preview .alert-card.bump { animation: bump 520ms var(--spring); }
+.loading { animation: rise 400ms var(--ease) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0s !important; transition-duration: 1ms !important; }
+  .live::before { animation: none; }
+}

@@ -1,0 +1,52 @@
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; background: transparent; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+
+/* ------------------------------------------------------------- alerts */
+/* Sized for a 1920×1080 OBS canvas; scales down for smaller browser sources. */
+.stage { position: fixed; inset: 0; display: flex; justify-content: center; align-items: flex-start; padding-top: 8vh; pointer-events: none; }
+.alert {
+  width: min(900px, 92vw);
+  padding: clamp(18px, 2.4vw, 34px) clamp(22px, 3vw, 44px);
+  border-radius: 28px;
+  background: rgb(20 18 36 / 0.88);
+  border: 3px solid #8f84ff;
+  box-shadow: 0 18px 60px rgb(0 0 0 / 0.45), 0 0 40px rgb(143 132 255 / 0.35);
+  color: #fff;
+  text-align: center;
+  animation: pop-in 450ms cubic-bezier(.2, 1.4, .4, 1) both;
+}
+.alert.leaving { animation: fade-out 350ms ease-in both; }
+.who { margin: 0; font-size: clamp(22px, 2.7vw, 44px); font-weight: 800; line-height: 1.2; text-shadow: 0 2px 8px rgb(0 0 0 / 0.4); }
+.who .amount { color: #ffd166; white-space: nowrap; }
+#alert-name { color: #b9b2ff; }
+.message { margin: 14px 0 0; font-size: clamp(18px, 2vw, 34px); line-height: 1.35; overflow-wrap: anywhere; }
+.message:empty { display: none; }
+@keyframes pop-in { from { opacity: 0; transform: translateY(-30px) scale(.92); } to { opacity: 1; transform: none; } }
+@keyframes fade-out { to { opacity: 0; transform: translateY(-14px) scale(.97); } }
+@media (prefers-reduced-motion: reduce) { .alert, .alert.leaving { animation-duration: 1ms; } }
+
+/* ------------------------------------------------- hint (browser only) */
+.hint { position: fixed; left: 16px; right: 16px; bottom: 16px; max-width: 640px; margin: 0 auto; padding: 14px 16px; border-radius: 12px; background: #fff8e1; color: #6b4e00; font-size: 14px; line-height: 1.45; border: 1px solid #f3dd94; }
+
+/* --------------------------------------------------------------- voice */
+body.voice-mode { background: #f5f4fb; color: #1c1b29; }
+@media (prefers-color-scheme: dark) { body.voice-mode { background: #111019; color: #ecebf5; } }
+.voice { max-width: 480px; margin: 0 auto; padding: 32px 16px 48px; line-height: 1.5; }
+.voice h1 { margin: 0 0 6px; font-size: 24px; }
+.lead { margin: 0 0 20px; opacity: 0.75; }
+.voice button { font: inherit; font-weight: 650; border-radius: 12px; padding: 12px 16px; cursor: pointer; border: 1.5px solid #c9c5e3; background: transparent; color: inherit; }
+.voice button.primary { width: 100%; border: 0; background: #5b4ce6; color: #fff; font-size: 17px; padding: 15px; }
+.voice button.primary.on { background: #12805c; }
+.status { margin: 10px 0 20px; font-weight: 600; }
+.settings { display: grid; gap: 14px; margin-bottom: 24px; }
+.settings label { display: grid; gap: 6px; font-size: 14px; font-weight: 650; }
+.settings select { font: inherit; padding: 10px; border-radius: 10px; border: 1.5px solid #c9c5e3; background: transparent; color: inherit; }
+.settings select option { color: #1c1b29; }
+.settings .note, p.note { font-weight: 400; opacity: 0.7; font-size: 13px; margin: 0; }
+.tests { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; font-weight: 650; }
+.tests span { flex-basis: 100%; }
+.voice .tests button { padding: 9px 14px; }
+.help { border-top: 1px solid #c9c5e3; padding-top: 14px; font-size: 14px; }
+.help summary { cursor: pointer; font-weight: 650; }
+.help ol { padding-left: 20px; }

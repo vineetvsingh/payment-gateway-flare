@@ -1,0 +1,8 @@
+.phone { max-width: 360px; border-radius: 28px; padding: 24px 24px 20px; }
+.app-name { margin: 0 0 20px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+.muted { color: var(--muted); margin: 0; }
+.payee { font-size: 20px; font-weight: 700; margin: 2px 0 8px; }
+.hint { margin: -8px 0 12px; font-size: 12px; color: var(--muted); }
+#pin { letter-spacing: 0.4em; font-size: 20px; text-align: center; }
+#payer-fixed { margin: 12px 0; font-size: 14px; }
+#pin::placeholder { letter-spacing: normal; font-size: 15px; }

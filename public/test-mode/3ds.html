@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Verify Your Payment</title>
+  <link rel="stylesheet" href="/static/checkout/checkout.css">
+  <script src="/static/test-mode/3ds.js" defer></script>
+</head>
+<body>
+  <main class="card">
+    <header>
+      <p class="merchant">🏦 Test Bank · 3-D Secure</p>
+      <p class="amount" id="amount"></p>
+      <p class="description">Your bank wants to confirm it's really you making this payment to
+        <strong id="merchant"></strong>.</p>
+    </header>
+    <p class="error" id="error" role="alert"></p>
+    <button type="button" id="approve">Complete authentication</button>
+    <p></p>
+    <button type="button" id="fail" class="secondary">Fail authentication</button>
+    <footer>This page simulates the issuer's challenge screen. <span class="test-badge">TEST MODE</span></footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/static/dashboard/dashboard.css">
+  <script src="/static/dashboard/donations.js" defer></script>
+  <script src="/static/dashboard/dashboard.js" defer></script>
+</head>
+<body>
+  <div id="auth" class="auth" hidden>
+    <form id="auth-form" class="auth-card" novalidate>
+      <p class="logo">◆ Donations</p>
+      <h1 id="auth-title">Sign in to your dashboard</h1>
+      <label id="name-field" hidden>Channel name<input id="auth-name" autocomplete="nickname"></label>
+      <label id="handle-field" hidden>Page name
+        <span class="prefixed"><span class="prefix">/donate/</span><input id="auth-handle" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="30" placeholder="yourname"></span>
+        <span class="field-hint">Letters, numbers and _ only. This is your donation link.</span>
+      </label>
+      <label>Email<input id="auth-email" type="email" autocomplete="username" required></label>
+      <label>Password<input id="auth-password" type="password" autocomplete="current-password" required></label>
+      <p class="error" id="auth-error" role="alert"></p>
+      <button type="submit" class="primary" id="auth-submit">Sign in</button>
+      <p class="muted small" id="auth-switch-text">New here? <a href="#" id="auth-switch">Create an account</a></p>
+    </form>
+  </div>
+
+  <div id="shell" class="shell" hidden>
+    <nav class="sidebar" aria-label="Main">
+      <p class="logo">◆ Donations <span class="badge-test" id="mode-badge">TEST</span></p>
+      <a href="#/" data-nav="home">Home</a>
+      <a href="#/donations" data-nav="donations">Donations <span class="nav-badge" id="review-badge" hidden></span></a>
+      <a href="#/stream" data-nav="stream">Stream setup</a>
+      <a href="#/payments" data-nav="payments">Payments</a>
+      <a href="#/balance" data-nav="balance">Balance &amp; payouts</a>
+      <a href="#/provider" data-nav="provider">Payment provider</a>
+      <div class="sidebar-foot">
+        <p class="merchant-name" id="merchant-name"></p>
+        <p class="muted small" id="merchant-email"></p>
+        <button type="button" class="link" id="logout">Sign out</button>
+      </div>
+    </nav>
+    <main id="view" class="view" tabindex="-1"></main>
+  </div>
+
+  <dialog id="dialog"><form method="dialog" id="dialog-form"></form></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>
