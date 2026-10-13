@@ -126,6 +126,21 @@ describe('reading Hindi and Hinglish aloud', () => {
 });
 
 describe('streamer accounts', () => {
+  it('can give OBS local overlay links while the donation page stays public', async () => {
+    const { dash } = await setup({ donations: { overlayBaseUrl: 'http://localhost:3000/' } });
+    const profile = (await dash.get('/dashboard-api/profile')).body;
+    assert.match(profile.overlay_urls.alerts, /^http:\/\/localhost:3000\/overlay\/ovl_\w+$/);
+    assert.match(profile.overlay_urls.voice, /^http:\/\/localhost:3000\/overlay\/ovl_\w+\/voice$/);
+    assert.equal(profile.donation_url, 'http://gw.test/donate/acme');
+  });
+
+  it('with sign-ups closed, lets only the first account sign up', async () => {
+    const { app } = await setup({ donations: { signups: 'closed' } }); // setup signs the first account up
+    const second = await request(app).post('/dashboard-api/signup')
+      .send({ name: 'Someone else', email: 'other@example.com', password: PASSWORD, handle: 'someone_else' });
+    assert.deepEqual([second.status, second.body.error.code], [403, 'signups_closed']);
+  });
+
   it('signs a streamer up with a public page, and keeps page names unique', async () => {
     const ctx = await streamer();
     assert.equal(ctx.profile.handle, 'vinethegamer');

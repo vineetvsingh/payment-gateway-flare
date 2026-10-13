@@ -170,7 +170,28 @@ Real money moves only when **all** of these are true:
 
 ## Deploying online
 
-Viewers need to reach the donation page, so the site has to be online at an **https://** address. It's a
+Viewers need to reach the donation page, so the site has to be online at an **https://** address.
+
+### Free: from your own PC with ngrok
+
+The server runs on your streaming PC, and [ngrok](https://ngrok.com) (free account) gives it a fixed public
+https address. The donation page works while your PC is on and the site is running.
+
+1. Install ngrok (`winget install Ngrok.Ngrok`), sign up at ngrok.com, and run
+   `ngrok config add-authtoken <your token>` once. Your free address is under **Domains** in the ngrok
+   dashboard, like `https://<three-words>.ngrok-free.dev`.
+2. In `.env`, set:
+   - `BASE_URL=https://<three-words>.ngrok-free.dev`
+   - `SIGNUPS=closed`, so only your own account can exist on the site
+   - `OVERLAY_BASE_URL=http://localhost:3000`, so OBS and the voice tab load alerts from your PC directly
+3. Double-click **`go-live.cmd`**. It starts the server and the tunnel. Close both windows to go offline.
+4. In the dashboard (**Stream setup**), copy the OBS and voice links again: they now start with
+   `http://localhost:3000`.
+
+On ngrok's free plan, each new visitor first sees an ngrok notice ("You are about to visit…") and clicks
+**Visit Site** once. OBS never sees it, because it uses the local links.
+
+### On a server It's a
 single Node.js process with a SQLite database file, packaged by the `Dockerfile`. Any host that runs a
 Docker container with a **persistent volume** works, for example Railway, Render (paid plan, for the
 disk) or Fly.io.
@@ -182,6 +203,7 @@ disk) or Fly.io.
    - `VAULT_KEY`: 64 hex characters; see `.env.example`. Keep it forever, or saved Razorpay keys can't
      be read.
    - `TRUST_PROXY=1`, already set in the Dockerfile
+   - `SIGNUPS=closed`, so nobody else can sign up after you
 4. Open `https://<your address>/dashboard`, sign up, and connect Razorpay under **Payment provider**.
 
 Notes:

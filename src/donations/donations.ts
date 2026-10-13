@@ -65,6 +65,13 @@ export interface DonationOptions {
   alertGapMs?: number;
   /** Multiplies alert durations; tests use a tiny value. */
   timeScale?: number;
+  /** 'closed': only the first account can sign up, for a site that runs one channel. */
+  signups?: 'open' | 'closed';
+  /**
+   * Where OBS and the voice tab load the overlay from, when that differs from the public address:
+   * http://localhost:3000 when the site runs on the streaming PC behind a tunnel such as ngrok.
+   */
+  overlayBaseUrl?: string;
 }
 
 export class Donations {
@@ -72,7 +79,12 @@ export class Donations {
   readonly hub: AlertHub;
   private readonly signupListeners: ((merchantId: string) => void)[] = [];
 
+  private readonly signupsClosed: boolean;
+  private readonly overlayBaseUrl: string | undefined;
+
   constructor(readonly gateway: Gateway, options: DonationOptions = {}) {
+    this.signupsClosed = options.signups === 'closed';
+    this.overlayBaseUrl = options.overlayBaseUrl?.replace(/\/$/, '');
     this.db = gateway.db;
     this.hub = new AlertHub(this, options);
     gateway.onPaymentSucceeded((payment) => this.markPaid(payment));
@@ -82,6 +94,9 @@ export class Donations {
 
   /** Creates the streamer's account and their public profile together. */
   signup(input: { name: string; email: string; password: string; handle: string }) {
+    if (this.signupsClosed && this.db.get('SELECT 1 FROM profiles LIMIT 1')) {
+      throw new ApiError(403, 'invalid_request_error', 'signups_closed', 'Sign-ups are closed on this site. Sign in instead.');
+    }
     const merchant = this.gateway.createMerchant(
       { name: input.name, email: input.email, password: input.password },
       (merchantId) => this.createProfile(merchantId, { handle: input.handle, display_name: input.name }),
@@ -174,7 +189,7 @@ export class Donations {
   }
 
   overlayUrls(profile: ProfileRow) {
-    const base = `${this.gateway.baseUrl}/overlay/${profile.overlay_token}`;
+    const base = `${this.overlayBaseUrl ?? this.gateway.baseUrl}/overlay/${profile.overlay_token}`;
     return { alerts: base, voice: `${base}/voice` };
   }
 

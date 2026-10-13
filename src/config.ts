@@ -17,6 +17,10 @@ export interface Config {
   razorpayApiBase: string;
   /** Express "trust proxy": set TRUST_PROXY=1 when running behind one load balancer (Render, Railway, ...). */
   trustProxy: boolean | number | string;
+  /** SIGNUPS=closed: only the first account can sign up (yours), so strangers can't make pages on your site. */
+  signups: 'open' | 'closed';
+  /** OVERLAY_BASE_URL: where OBS loads alerts from, if not BASE_URL (http://localhost:3000 behind ngrok). */
+  overlayBaseUrl: string | undefined;
 }
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
@@ -41,6 +45,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     providerSyncIntervalMs: Number(env.PROVIDER_SYNC_INTERVAL_MS ?? 30_000),
     razorpayApiBase: env.RAZORPAY_API_BASE ?? 'https://api.razorpay.com',
     trustProxy: parseTrustProxy(env.TRUST_PROXY),
+    signups: env.SIGNUPS === 'closed' ? 'closed' : 'open',
+    overlayBaseUrl: env.OVERLAY_BASE_URL || undefined,
   };
 }
 

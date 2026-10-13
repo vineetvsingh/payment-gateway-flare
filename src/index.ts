@@ -7,7 +7,10 @@ import { Vault } from './payments/vault.js';
 
 const config = loadConfig();
 const db = new Db(config.dbPath);
-const { app, gateway, donations } = createApp(db, new Vault(config.vaultKey), config);
+const { app, gateway, donations } = createApp(db, new Vault(config.vaultKey), {
+  ...config,
+  donations: { signups: config.signups, overlayBaseUrl: config.overlayBaseUrl },
+});
 
 // Your own Razorpay keys from .env, the same way `npm run demo` uses them. If your account doesn't exist
 // yet, they're connected as soon as you sign up.
